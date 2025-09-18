@@ -13,7 +13,7 @@ h1 {
 
 /* calculator main */
 
-div#main {
+#main {
     margin: 0 auto;
     margin-top: 2rem;
     width: 400px;
@@ -26,19 +26,21 @@ div#main {
     
 }
 
-#display-frame {
+/* header */
+
+header {
     background-color: #000;
     border-radius: 10px 10px 0 0;
 }
 
-#display-frame > #display {
+#display {
     height: calc(105px - 40px);
     background-color: inherit;
     border-radius: 10px 10px 0 0;
     padding: 20px;
 }
 
-#display > #result {
+#result {
     background-color: #303030;
     border-radius: 5px;
     padding-right: 16px;
@@ -56,7 +58,7 @@ div#main {
 
 /* buttons container */
 
-div#panel {
+#panel {
     padding: 20px;
     border-radius: 0 0 10px 10px;
     background: #404040;
@@ -82,7 +84,7 @@ button {
 
 /* white buttons */
 
-div#big-buttons {
+#big-buttons {
     background-color: inherit;
     display: flex;
     flex-flow: row wrap;
@@ -90,7 +92,7 @@ div#big-buttons {
     gap: 1.25rem;
 }
 
-button.mainButton {
+.mainButton {
     background-color: white;
     color: #000;
     border: none;
@@ -100,7 +102,7 @@ button.mainButton {
 
 /* control buttons */
 
-div#control-buttons {
+#control-buttons {
     background-color: inherit;
     width: 360px;
     height: 360px;
@@ -111,18 +113,18 @@ div#control-buttons {
     justify-content: space-between;
 }
 
-button.action, button.control {
+.action, .control {
     border: none;
     border-radius: 5px;
     width: 75px;
 }
 
-button.action {
+.action {
     background-color: #f54000;
     color: white;
 }
 
-button.control {
+.control {
     background-color: black;
     color: white;
 
