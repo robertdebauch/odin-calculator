@@ -40,7 +40,7 @@ header {
     padding: 20px;
 }
 
-#result {
+#displayInfo {
     background-color: #303030;
     border-radius: 5px;
     padding-right: 16px;
@@ -72,7 +72,7 @@ header {
 
 /* buttons style */
 
-button {
+.key, .specialKey {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -127,7 +127,11 @@ button {
 .control {
     background-color: black;
     color: white;
+}
 
+.control:hover {
+    background-color: rgba(0,0,0,.5);
+    box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
 }
 
 
