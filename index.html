@@ -12,33 +12,32 @@
     <h1>Simple Calculator</h1>
     <div id="main">
         <header>
-            <div id="display">
-                <p id="displayInfo">0123456789</p>
+            <div id="display-frame">
+                <div id="display">0<!--<span>|</span>--></div>
             </div>
         </header>
         <section id="panel">
-            <!-- data-key later? -->
             <div id="big-buttons">
-                <button data-key="Delete" class="specialKey mainButton">clear</button>
-                <button data-key="Equal" class="specialKey mainButton">equals</button>
+                <button id="clear" class="specialKey mainButton">clear</button>
+                <button id="equal" class="specialKey mainButton">equals</button>
             </div>
             <div id="control-buttons">
-                <button data-key="Digit1" id="one" class="key control">1</button>
-                <button data-key="Digit2" class="key control">2</button>
-                <button data-key="Digit3" class="key control">3</button>
-                <button data-key="" class="key action">÷</button>
-                <button data-key="Digit4" class="key control">4</button>
-                <button data-key="Digit5" class="key control">5</button>
-                <button data-key="Digit6" class="key control">6</button>
-                <button data-key="" class="key action">×</button>
-                <button data-key="Digit7" class="key control">7</button>
-                <button data-key="Digit8" class="key control">8</button>
-                <button data-key="Digit9" class="key control">9</button>
-                <button data-key="" class="key action">−</button>
-                <button data-key="Digit0" class="key control">0</button>
-                <button data-key="" class="key control">.</button>
-                <button data-key="" class="specialKey control">del</button>
-                <button data-key="" class="key action">+</button>
+                <button id="one" class="key number">1</button>
+                <button class="key number">2</button>
+                <button class="key number">3</button>
+                <button class="key operator">÷</button>
+                <button class="key number">4</button>
+                <button class="key number">5</button>
+                <button class="key number">6</button>
+                <button class="key operator">×</button>
+                <button class="key number">7</button>
+                <button class="key number">8</button>
+                <button class="key number">9</button>
+                <button class="key operator">−</button>
+                <button class="key number">0</button>
+                <button id="period" class="key ">.</button> <!-- different behavior -->
+                <button id="delete" class="key">del</button><!-- different behavior -->
+                <button class="key operator">+</button>
             </div>
         </section>
     </div>

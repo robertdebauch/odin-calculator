@@ -23,7 +23,7 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+
 }
 
 /* header */
@@ -33,14 +33,14 @@ header {
     border-radius: 10px 10px 0 0;
 }
 
-#display {
+#display-frame {
     height: calc(105px - 40px);
     background-color: inherit;
     border-radius: 10px 10px 0 0;
     padding: 20px;
 }
 
-#displayInfo {
+#display {
     background-color: #303030;
     border-radius: 5px;
     padding-right: 16px;
@@ -49,11 +49,35 @@ header {
     text-align: right;
     color: white;
     height: 100%;
-
+    /* it is possible to do an opacity animation for the slight flickering effect which will indicate something*/
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#display>span {
+    color: rgb(187, 187, 255);
+    background: none;
+
+    animation-name: fade;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 /* buttons container */
@@ -72,7 +96,8 @@ header {
 
 /* buttons style */
 
-.key, .specialKey {
+.key,
+.specialKey {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -113,27 +138,25 @@ header {
     justify-content: space-between;
 }
 
-.action, .control {
+/* revisit! */
+.operator,
+.number, #delete, #period {
     border: none;
     border-radius: 5px;
     width: 75px;
 }
 
-.action {
+.operator {
     background-color: #f54000;
     color: white;
 }
 
-.control {
+.number {
     background-color: black;
     color: white;
 }
 
-.control:hover {
-    background-color: rgba(0,0,0,.5);
+.number:hover {
+    background-color: rgba(0, 0, 0, .5);
     box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
 }
-
-
-
-
