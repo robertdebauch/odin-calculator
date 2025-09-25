@@ -125,6 +125,12 @@ header {
     width: 170px;
 }
 
+.mainButton:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
+    color: rgba(0, 0, 0, 0.5);
+}
+
 /* control buttons */
 
 #control-buttons {
@@ -140,15 +146,28 @@ header {
 
 /* revisit! */
 .operator,
-.number, #delete, #period {
+.number,
+#delete,
+#period {
     border: none;
     border-radius: 5px;
     width: 75px;
 }
 
 .operator {
-    background-color: #f54000;
+    background-color: rgb(245, 64, 0);
     color: white;
+}
+
+.operator:hover {
+    background-color: rgba(245, 64, 0, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+    box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
+}
+
+.highlight {
+    border: 2px solid rgb(255, 255, 255);
+    background-color: #4100f5;
 }
 
 .number {
@@ -158,5 +177,6 @@ header {
 
 .number:hover {
     background-color: rgba(0, 0, 0, .5);
+    color: rgba(255, 255, 255, 0.5);
     box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
 }
