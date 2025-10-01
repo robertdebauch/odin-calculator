@@ -56,7 +56,7 @@ header {
     align-items: center;
 }
 
-#display>span {
+.flicker {
     color: rgb(187, 187, 255);
     background: none;
 
@@ -122,8 +122,14 @@ header {
     color: #000;
     border: none;
     border-radius: 5px;
-    width: 170px;
+    /* width: 170px; */
+    flex: 1;
 }
+
+/* #convert {
+    width: 75px;
+    flex: none;
+} */
 
 .mainButton:hover {
     background-color: rgba(255, 255, 255, 0.5);
@@ -152,6 +158,7 @@ header {
     border: none;
     border-radius: 5px;
     width: 75px;
+    /* flex: 1; */
 }
 
 .operator {
