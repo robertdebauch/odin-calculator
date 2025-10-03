@@ -22,34 +22,6 @@ const display = document.querySelector("#display");
 const defaultDisplayValue = "TYPE NUMBERS";
 let displayValue = defaultDisplayValue; // new variable to store strings
 
-// delete button
-// deleteButton.addEventListener('click', () => {
-//     if (display.textContent === defaultDisplayValue || display.textContent.length === 1) {
-//         display.textContent = "";
-
-//     } else if (display.textContent === storeCalculationOutput.toString()) {
-//         display.textContent = storeCalculationOutput;
-
-//         if (numberTwo === DEFAULT_NUMBER) {
-//             display.textContent = storeCalculationOutput.toString();
-
-//             numberOne = storeCalculationOutput;
-//             numberTwo = DEFAULT_NUMBER;
-//         }
-
-//     } else if (display.textContent !== defaultDisplayValue && numberTwo !== DEFAULT_NUMBER) {
-//         let deleted = display.textContent.slice(0, -1);
-//         if (deleted.length === 0) {
-//             numberTwo = DEFAULT_NUMBER;
-//             return;
-//         }
-
-//         numberTwo = parseFloat(deleted);
-//         console.log(deleted);
-//         display.textContent = deleted;
-//     }
-// });
-
 // MATH
 
 const add = (numOne, numTwo) => {
@@ -92,101 +64,86 @@ const operate = (numOne, numTwo, operator) => {
     return result;
 }
 
-
-
 // ALL NUMBER BUTTONS SELECTION
 const numbersButtons = document.querySelectorAll(".number");
 
-const numberCheck = (value, num) => {
+// update display
+const updateDisplay = () => {
+    display.textContent = displayValue;
+}
+
+// validate the number -> !!!rename this
+const validateNumber = (value) => {
     if (!isNaN(value)) {
-        return num = value;
+        return value;
     } else {
-        return num = DEFAULT_NUMBER;
+        return DEFAULT_NUMBER;
     }
 }
 
-/* Follow the logic of this: what return what? Think about it: this isn't actually what you want, since we need to += sometimes.
-const displayChange = (num) => {
-    displayValue = buttonValue;
-    display.textContent = displayValue;
-    const parsedValue = parseFloat(displayValue);
-    num = numberCheck(parsedValue, num);
+// parse the Number -> !!!rename this
+const parseAndValidate = (value) => {
+    const parsedValue = parseFloat(value);
+    let num = validateNumber(parsedValue);
     return num;
 }
-*/ 
+
+// function for choosing the correct value to work with: numberOne or numberTwo. 
+// this function works exactly as all the if/else chain inside chooseNumber() before, but can help to read the code better
+const appendDigit = (buttonValue, targetNumber) => {
+    if (isError) { clearEverything(); }
+
+    if (targetNumber === "two" && enteringSecondNumber === true) {
+        displayValue = "";
+        enteringSecondNumber = false;
+    }
+
+    const currentNumberIsDefault = (displayValue === defaultDisplayValue);
+    displayValue = currentNumberIsDefault ? buttonValue : displayValue + buttonValue;
+
+    updateDisplay();
+
+    const parsed = parseAndValidate(displayValue);
+    if (targetNumber === "one") {
+        numberOne = parsed;
+    } else {
+        numberTwo = parsed;
+    }
+}
 
 // function to choose the value of numberOne or numberTwo
 const chooseNumber = () => {
     numbersButtons.forEach((number) => {
         number.addEventListener('click', () => {
+            // flag checking -> serve as 'the gate' to all the conditions below:
             if (isError) {
                 clearEverything();
             }
 
             let buttonValue = number.textContent;
 
+            // If numberOne is the same as the calculationOutput and other two variables are on default, then clean everything.
             if (numberOne === calculationOutput && numberTwo === DEFAULT_NUMBER && operator === DEFAULT_OPERATOR) {
                 clearEverything();
             }
 
+            // IF we don't choose operator yet, then we move through this chain
             if (operator === DEFAULT_OPERATOR) {
 
-                if (display.textContent === defaultDisplayValue) {
-                    displayValue = buttonValue;
-                    display.textContent = displayValue;
-                    const parsedValue = parseFloat(displayValue);
-                    numberOne = numberCheck(parsedValue, numberOne);
-                }
+                appendDigit(buttonValue, "one");
+                
+            } else {
 
-                else {
-                    if (displayValue.length <= MAX_STRING_LENGTH) {
-                        displayValue += buttonValue;
-                        display.textContent = displayValue;
-                        const parsedValue = parseFloat(displayValue);
-                        numberOne = numberCheck(parsedValue, numberOne);
-                    } else {
-                        return;
-                    }
-                }
-                console.log(numberOne + " is numberOne");
-
-                // ELSE (operator is chosen) - select numberTwo
-            } else if (operator !== DEFAULT_OPERATOR) {
-
-                // switching to the second number
-                if (enteringSecondNumber) {
-                    displayValue = "";
-                    display.textContent = displayValue;
-                    enteringSecondNumber = false;
-                }
-
-                if (display.textContent === defaultDisplayValue) {
-                    displayValue += buttonValue;
-                    display.textContent = displayValue;
-                    const parsedValue = parseFloat(displayValue);
-                    numberTwo = numberCheck(parsedValue, numberTwo);
-                }
-
-                else {
-                    if (displayValue.length <= MAX_STRING_LENGTH) {
-                        displayValue += buttonValue;
-                        display.textContent = displayValue;
-                        const parsedValue = parseFloat(displayValue);
-                        numberTwo = numberCheck(parsedValue, numberTwo);
-                    } else {
-                        return;
-                    }
-                }
+                appendDigit(buttonValue, "two");
             }
 
             console.log(numberTwo + " is numberTwo");
-            // return numberTwo;
 
 
-        });
-    });
+        }); // end of the listener
+    }); // end of the forEach
 
-};
+}; // end of the chooseNumber();
 
 chooseNumber();
 
