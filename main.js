@@ -1,28 +1,24 @@
-
-// default values for all calculation variables
 const DEFAULT_NUMBER = null;
 const DEFAULT_OPERATOR = "";
 const MAX_STRING_LENGTH = 6;
 
-// variables for inputs
 let numberOne = DEFAULT_NUMBER;
 let numberTwo = DEFAULT_NUMBER;
 let operator = DEFAULT_OPERATOR;
 
-let enteringSecondNumber = false; // this is using to indicate what number user is entering at the moment.
-let isError = false; // this is using when the user is dividing by zero. 
-let calculationOutput = 0;
-let buttonValue = "";
-// let storeCalculationOutput;
+let enteringSecondNumber = false;
+let isError = false;
+let isEditionAfterResult = false; 
+let calculationOutput = null;
 
 const clearButton = document.querySelector("#clear");
 const deleteButton = document.querySelector("#delete");
+const equalsButton = document.querySelector('#equal');
+const decimalPoint = document.querySelector('#point');
 
 const display = document.querySelector("#display");
 const defaultDisplayValue = "TYPE NUMBERS";
-let displayValue = defaultDisplayValue; // new variable to store strings
-
-// MATH
+let displayValue = defaultDisplayValue;
 
 const add = (numOne, numTwo) => {
     return numOne + numTwo;
@@ -39,8 +35,6 @@ const multiply = (numOne, numTwo) => {
 const divide = (numOne, numTwo) => {
     return numOne / numTwo;
 }
-
-// OPERATION HANDLER
 
 const operate = (numOne, numTwo, operator) => {
 
@@ -64,15 +58,12 @@ const operate = (numOne, numTwo, operator) => {
     return result;
 }
 
-// ALL NUMBER BUTTONS SELECTION
 const numbersButtons = document.querySelectorAll(".number");
 
-// update display
 const updateDisplay = () => {
     display.textContent = displayValue;
 }
 
-// validate the number -> !!!rename this
 const validateNumber = (value) => {
     if (!isNaN(value)) {
         return value;
@@ -81,25 +72,38 @@ const validateNumber = (value) => {
     }
 }
 
-// parse the Number -> !!!rename this
 const parseAndValidate = (value) => {
     const parsedValue = parseFloat(value);
     let num = validateNumber(parsedValue);
     return num;
 }
 
-// function for choosing the correct value to work with: numberOne or numberTwo. 
-// this function works exactly as all the if/else chain inside chooseNumber() before, but can help to read the code better
-const appendDigit = (buttonValue, targetNumber) => {
-    if (isError) { clearEverything(); }
-
-    if (targetNumber === "two" && enteringSecondNumber === true) {
+const enterSecondNumberIfNeeded = () => {
+    if (enteringSecondNumber === true) {
+        console.log('check check');
         displayValue = "";
         enteringSecondNumber = false;
     }
+};
 
-    const currentNumberIsDefault = (displayValue === defaultDisplayValue);
-    displayValue = currentNumberIsDefault ? buttonValue : displayValue + buttonValue;
+const appendDigit = (buttonValue, targetNumber) => {
+    if (isError) { clearEverything(); }
+
+    if (targetNumber === "two") {
+        enterSecondNumberIfNeeded();
+    }
+
+    const currentNumberIsDefault = (displayValue === defaultDisplayValue); 
+
+    const displayString = currentNumberIsDefault ? "" : String(displayValue); 
+
+    const currentLength = currentNumberIsDefault ? 0 : displayString.length; 
+
+    if (currentLength >= MAX_STRING_LENGTH) {
+        return;
+    }
+
+    displayValue = currentNumberIsDefault ? buttonValue : displayString + buttonValue;
 
     updateDisplay();
 
@@ -111,27 +115,24 @@ const appendDigit = (buttonValue, targetNumber) => {
     }
 }
 
-// function to choose the value of numberOne or numberTwo
+
 const chooseNumber = () => {
     numbersButtons.forEach((number) => {
         number.addEventListener('click', () => {
-            // flag checking -> serve as 'the gate' to all the conditions below:
             if (isError) {
                 clearEverything();
             }
 
             let buttonValue = number.textContent;
 
-            // If numberOne is the same as the calculationOutput and other two variables are on default, then clean everything.
-            if (numberOne === calculationOutput && numberTwo === DEFAULT_NUMBER && operator === DEFAULT_OPERATOR) {
+            if (numberOne === calculationOutput && numberTwo === DEFAULT_NUMBER && operator === DEFAULT_OPERATOR && isEditionAfterResult === false) {
                 clearEverything();
             }
 
-            // IF we don't choose operator yet, then we move through this chain
             if (operator === DEFAULT_OPERATOR) {
 
                 appendDigit(buttonValue, "one");
-                
+
             } else {
 
                 appendDigit(buttonValue, "two");
@@ -140,26 +141,26 @@ const chooseNumber = () => {
             console.log(numberTwo + " is numberTwo");
 
 
-        }); // end of the listener
-    }); // end of the forEach
+        });
+    });
 
-}; // end of the chooseNumber();
+};
 
 chooseNumber();
 
-
-// ALL OPERATOR BUTTONS SELECTION
 const operatorsButton = document.querySelectorAll(".operator");
 
 operatorsButton.forEach((op) => {
     op.addEventListener('click', () => {
+
+        isEditionAfterResult = false;
+
         if (isError) {
             clearEverything();
         }
 
         if (displayValue !== defaultDisplayValue) {
 
-            // logic for chaining operations
             if (numberOne != DEFAULT_NUMBER && numberTwo != DEFAULT_NUMBER && operator != DEFAULT_OPERATOR) {
                 resultOfOperation();
             }
@@ -182,6 +183,57 @@ operatorsButton.forEach((op) => {
 
 });
 
+decimalPoint.addEventListener('click', () => {
+    if (isError) {
+        clearEverything();
+    }
+
+    if (numberOne === calculationOutput && calculationOutput !== null && operator === DEFAULT_OPERATOR) {
+        const calculationToString = String(calculationOutput);
+        if (calculationToString.includes('.')) {
+            return;
+        } else {
+            displayValue = calculationToString + '.';
+            isEditionAfterResult = true;
+            updateDisplay();
+            numberOne = parseFloat(displayValue);
+            return;
+        }
+    }
+
+    if (operator !== DEFAULT_OPERATOR && enteringSecondNumber) {
+        enterSecondNumberIfNeeded();
+    }
+
+    if (displayValue === defaultDisplayValue || displayValue === "" || displayValue === "0") {
+        displayValue = "0.";
+        updateDisplay();
+       
+        if (operator === DEFAULT_OPERATOR) {
+            numberOne = parseFloat(displayValue);
+        } else {
+            numberTwo = parseFloat(displayValue);
+        }
+        return;
+    }
+
+    if (displayValue.includes(".")) {
+        return;
+    }
+
+    if (displayValue.length >= MAX_STRING_LENGTH) {
+        return;
+    }
+
+    displayValue += ".";
+    updateDisplay();
+    if (operator === DEFAULT_OPERATOR) {
+        numberOne = parseFloat(displayValue);
+    } else {
+        numberTwo = parseFloat(displayValue);
+    }
+});
+
 const resultOfOperation = () => {
 
     let result = operate(numberOne, numberTwo, operator);
@@ -189,6 +241,7 @@ const resultOfOperation = () => {
     if (result === null) {
         displayValue = 'BAD! BAD!'
         display.textContent = displayValue;
+        console.log(display.textContent);
         isError = true;
         clearOperator();
         numberOne = DEFAULT_NUMBER;
@@ -198,39 +251,38 @@ const resultOfOperation = () => {
 
     calculationOutput = Number(result.toFixed(4));
 
-    // storeCalculationOutput = Math.trunc(calculationOutput); come back to it when you will do delete button
     numberOne = calculationOutput;
     numberTwo = DEFAULT_NUMBER;
     clearOperator();
-    displayValue = numberOne;
-    display.textContent = displayValue;
+    displayValue = numberOne === DEFAULT_NUMBER ? defaultDisplayValue : String(numberOne);
+    console.log(`the result is: ${displayValue}`);
+    updateDisplay();
 }
 
-const equalsButton = document.querySelector('#equal');
+
 equalsButton.addEventListener('click', () => {
     if (isError) {
         clearEverything();
     }
 
-    if (numberOne != DEFAULT_NUMBER && numberTwo != DEFAULT_NUMBER && operator != DEFAULT_OPERATOR) {
+    if (numberOne !== DEFAULT_NUMBER && numberTwo !== DEFAULT_NUMBER && operator !== DEFAULT_OPERATOR) {
         resultOfOperation();
     } else {
         return;
     }
 });
 
-// DISPLAY CLEARING + VARIABLES RESETING
 const clearEverything = () => {
     isError = false;
-    display.textContent = defaultDisplayValue;
+    isEditionAfterResult = false;
     displayValue = defaultDisplayValue;
+    updateDisplay();
     numberOne = DEFAULT_NUMBER;
     numberTwo = DEFAULT_NUMBER;
 
     clearOperator();
     console.clear();
 }
-
 
 clearButton.addEventListener('click', clearEverything);
 
