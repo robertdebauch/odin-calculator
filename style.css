@@ -49,35 +49,11 @@ header {
     text-align: right;
     color: white;
     height: 100%;
-    /* it is possible to do an opacity animation for the slight flickering effect which will indicate something*/
+    
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-}
-
-.flicker {
-    color: rgb(187, 187, 255);
-    background: none;
-
-    animation-name: fade;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes fade {
-    0% {
-        opacity: 0;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
 }
 
 /* buttons container */
@@ -122,14 +98,9 @@ header {
     color: #000;
     border: none;
     border-radius: 5px;
-    /* width: 170px; */
     flex: 1;
 }
 
-/* #convert {
-    width: 75px;
-    flex: none;
-} */
 
 .mainButton:hover {
     background-color: rgba(255, 255, 255, 0.5);
@@ -182,9 +153,49 @@ header {
     color: white;
 }
 
-.number:hover {
+.number:hover, #point:hover {
     background-color: rgba(0, 0, 0, .5);
     color: rgba(255, 255, 255, 0.5);
     box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
+}
+
+#delete:hover {
+    background-color: #690500;
+    color: rgba(255, 255, 255, 0.5);
+    box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
+}
+
+#display-value {
+    color: inherit;
+    background-color: inherit;
+}
+
+.indicator {
+    display: none;
+    background-color: inherit;
+    font-weight: 100;
+    font-size: inherit;
+    color: rgb(161, 161, 236);
+    padding-bottom: 6px;
+}
+
+.indicator-visible {
+    display: inline-block !important;
+    animation: blink 1s infinite;
+}
+
+
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 

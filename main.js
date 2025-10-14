@@ -8,7 +8,6 @@ let operator = DEFAULT_OPERATOR;
 
 let enteringSecondNumber = false;
 let isError = false;
-let isEditionAfterResult = false; 
 let calculationOutput = null;
 
 const clearButton = document.querySelector("#clear");
@@ -17,6 +16,9 @@ const equalsButton = document.querySelector('#equal');
 const decimalPoint = document.querySelector('#point');
 
 const display = document.querySelector("#display");
+const displayValueElement = document.querySelector("#display-value");
+const indicator = document.querySelector('.indicator');
+
 const defaultDisplayValue = "TYPE NUMBERS";
 let displayValue = defaultDisplayValue;
 
@@ -58,10 +60,29 @@ const operate = (numOne, numTwo, operator) => {
     return result;
 }
 
+/* indicator */
+const showIndicator = () => {
+    indicator.classList.add('indicator-visible');
+}
+
+const hideIndicator = () => {
+    indicator.classList.remove('indicator-visible');
+}
+
+showIndicator();
+
 const numbersButtons = document.querySelectorAll(".number");
 
 const updateDisplay = () => {
-    display.textContent = displayValue;
+    displayValueElement.textContent = displayValue;
+    if (displayValue.length >= (MAX_STRING_LENGTH * 3)) {
+        display.setAttribute('style', 'font-size: 2rem');
+    } else if (displayValue.length > (MAX_STRING_LENGTH * 2)) {
+        display.setAttribute('style', 'font-size: 2.5rem');
+    } else {
+        display.setAttribute('style', 'font-size: 3rem');
+    }
+
 }
 
 const validateNumber = (value) => {
@@ -91,13 +112,14 @@ const appendDigit = (buttonValue, targetNumber) => {
 
     if (targetNumber === "two") {
         enterSecondNumberIfNeeded();
+        showIndicator();
     }
 
-    const currentNumberIsDefault = (displayValue === defaultDisplayValue); 
+    const currentNumberIsDefault = (displayValue === defaultDisplayValue);
 
-    const displayString = currentNumberIsDefault ? "" : String(displayValue); 
+    const displayString = currentNumberIsDefault ? "" : String(displayValue);
 
-    const currentLength = currentNumberIsDefault ? 0 : displayString.length; 
+    const currentLength = currentNumberIsDefault ? 0 : displayString.length;
 
     if (currentLength >= MAX_STRING_LENGTH) {
         return;
@@ -125,7 +147,7 @@ const chooseNumber = () => {
 
             let buttonValue = number.textContent;
 
-            if (numberOne === calculationOutput && numberTwo === DEFAULT_NUMBER && operator === DEFAULT_OPERATOR && isEditionAfterResult === false) {
+            if (numberOne === calculationOutput && calculationOutput !== null && operator === DEFAULT_OPERATOR) {
                 clearEverything();
             }
 
@@ -153,8 +175,6 @@ const operatorsButton = document.querySelectorAll(".operator");
 operatorsButton.forEach((op) => {
     op.addEventListener('click', () => {
 
-        isEditionAfterResult = false;
-
         if (isError) {
             clearEverything();
         }
@@ -175,6 +195,7 @@ operatorsButton.forEach((op) => {
 
             op.classList.toggle('highlight');
             console.log(operator);
+            showIndicator();
 
         } else {
             return;
@@ -189,16 +210,11 @@ decimalPoint.addEventListener('click', () => {
     }
 
     if (numberOne === calculationOutput && calculationOutput !== null && operator === DEFAULT_OPERATOR) {
-        const calculationToString = String(calculationOutput);
-        if (calculationToString.includes('.')) {
-            return;
-        } else {
-            displayValue = calculationToString + '.';
-            isEditionAfterResult = true;
-            updateDisplay();
-            numberOne = parseFloat(displayValue);
-            return;
-        }
+        displayValue = "0.";
+        updateDisplay();
+        numberOne = parseFloat(displayValue);
+        calculationOutput = null;
+        return;
     }
 
     if (operator !== DEFAULT_OPERATOR && enteringSecondNumber) {
@@ -208,7 +224,7 @@ decimalPoint.addEventListener('click', () => {
     if (displayValue === defaultDisplayValue || displayValue === "" || displayValue === "0") {
         displayValue = "0.";
         updateDisplay();
-       
+
         if (operator === DEFAULT_OPERATOR) {
             numberOne = parseFloat(displayValue);
         } else {
@@ -234,18 +250,64 @@ decimalPoint.addEventListener('click', () => {
     }
 });
 
+
+deleteButton.addEventListener('click', () => {
+
+    if (isError) {
+        clearEverything();
+    }
+
+    if (numberOne === calculationOutput && calculationOutput !== null && operator === DEFAULT_OPERATOR) {
+        return;
+    }
+
+    if (operator === DEFAULT_OPERATOR) {
+        if (displayValue === defaultDisplayValue) {
+            return;
+        }
+
+        displayValue = displayValue.slice(0, -1);
+
+        if (displayValue === "") {
+            displayValue = defaultDisplayValue;
+            numberOne = DEFAULT_NUMBER;
+        } else {
+            numberOne = parseFloat(displayValue);
+        }
+
+    } else {
+        if (numberTwo === DEFAULT_NUMBER && displayValue === String(numberOne)) {
+            clearOperator();
+            return;
+        }
+
+        displayValue = displayValue.slice(0, -1);
+
+        if (displayValue === "") {
+            numberTwo = DEFAULT_NUMBER;
+            showIndicator();
+        } else {
+            numberTwo = parseFloat(displayValue);
+        }
+    }
+
+    updateDisplay();
+});
+
+
 const resultOfOperation = () => {
 
     let result = operate(numberOne, numberTwo, operator);
 
     if (result === null) {
         displayValue = 'BAD! BAD!'
-        display.textContent = displayValue;
+        displayValueElement.textContent = displayValue;
         console.log(display.textContent);
         isError = true;
         clearOperator();
         numberOne = DEFAULT_NUMBER;
         numberTwo = DEFAULT_NUMBER;
+        hideIndicator();
         return;
     }
 
@@ -257,8 +319,8 @@ const resultOfOperation = () => {
     displayValue = numberOne === DEFAULT_NUMBER ? defaultDisplayValue : String(numberOne);
     console.log(`the result is: ${displayValue}`);
     updateDisplay();
+    hideIndicator();
 }
-
 
 equalsButton.addEventListener('click', () => {
     if (isError) {
@@ -274,7 +336,6 @@ equalsButton.addEventListener('click', () => {
 
 const clearEverything = () => {
     isError = false;
-    isEditionAfterResult = false;
     displayValue = defaultDisplayValue;
     updateDisplay();
     numberOne = DEFAULT_NUMBER;
@@ -282,12 +343,14 @@ const clearEverything = () => {
 
     clearOperator();
     console.clear();
+    showIndicator();
 }
 
 clearButton.addEventListener('click', clearEverything);
 
 const clearOperator = () => {
     operator = DEFAULT_OPERATOR;
+    enteringSecondNumber = false;
     operatorsButton.forEach((button) => {
         button.classList.remove('highlight');
     });
