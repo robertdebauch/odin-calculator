@@ -1,6 +1,6 @@
 const DEFAULT_NUMBER = null;
 const DEFAULT_OPERATOR = "";
-const MAX_STRING_LENGTH = 6;
+const MAX_STRING_LENGTH = 9;
 
 let numberOne = DEFAULT_NUMBER;
 let numberTwo = DEFAULT_NUMBER;
@@ -69,20 +69,30 @@ const hideIndicator = () => {
     indicator.classList.remove('indicator-visible');
 }
 
+const displayFocus = () => {
+    display.classList.add('display-focus');
+}
+
+const clearDisplayFocus = () => {
+    display.classList.remove('display-focus');
+}
+
 showIndicator();
+clearDisplayFocus();
 
 const numbersButtons = document.querySelectorAll(".number");
 
 const updateDisplay = () => {
     displayValueElement.textContent = displayValue;
-    if (displayValue.length >= (MAX_STRING_LENGTH * 3)) {
+    if (displayValue.length >= (MAX_STRING_LENGTH + 12)) {
+        display.setAttribute('style', 'font-size: 1.5rem');
+    } else if (displayValue.length >= (MAX_STRING_LENGTH + 8)) {
         display.setAttribute('style', 'font-size: 2rem');
-    } else if (displayValue.length > (MAX_STRING_LENGTH * 2)) {
+    } else if (displayValue.length >= (MAX_STRING_LENGTH + 4)) {
         display.setAttribute('style', 'font-size: 2.5rem');
     } else {
         display.setAttribute('style', 'font-size: 3rem');
     }
-
 }
 
 const validateNumber = (value) => {
@@ -101,7 +111,6 @@ const parseAndValidate = (value) => {
 
 const enterSecondNumberIfNeeded = () => {
     if (enteringSecondNumber === true) {
-        console.log('check check');
         displayValue = "";
         enteringSecondNumber = false;
     }
@@ -113,6 +122,7 @@ const appendDigit = (buttonValue, targetNumber) => {
     if (targetNumber === "two") {
         enterSecondNumberIfNeeded();
         showIndicator();
+        clearDisplayFocus();
     }
 
     const currentNumberIsDefault = (displayValue === defaultDisplayValue);
@@ -160,9 +170,6 @@ const chooseNumber = () => {
                 appendDigit(buttonValue, "two");
             }
 
-            console.log(numberTwo + " is numberTwo");
-
-
         });
     });
 
@@ -194,8 +201,9 @@ operatorsButton.forEach((op) => {
             });
 
             op.classList.toggle('highlight');
-            console.log(operator);
+
             showIndicator();
+            clearDisplayFocus();
 
         } else {
             return;
@@ -286,6 +294,7 @@ deleteButton.addEventListener('click', () => {
         if (displayValue === "") {
             numberTwo = DEFAULT_NUMBER;
             showIndicator();
+            clearDisplayFocus();
         } else {
             numberTwo = parseFloat(displayValue);
         }
@@ -302,12 +311,12 @@ const resultOfOperation = () => {
     if (result === null) {
         displayValue = 'BAD! BAD!'
         displayValueElement.textContent = displayValue;
-        console.log(display.textContent);
         isError = true;
         clearOperator();
         numberOne = DEFAULT_NUMBER;
         numberTwo = DEFAULT_NUMBER;
         hideIndicator();
+        displayFocus();
         return;
     }
 
@@ -317,8 +326,8 @@ const resultOfOperation = () => {
     numberTwo = DEFAULT_NUMBER;
     clearOperator();
     displayValue = numberOne === DEFAULT_NUMBER ? defaultDisplayValue : String(numberOne);
-    console.log(`the result is: ${displayValue}`);
     updateDisplay();
+    displayFocus();
     hideIndicator();
 }
 
@@ -344,6 +353,7 @@ const clearEverything = () => {
     clearOperator();
     console.clear();
     showIndicator();
+    clearDisplayFocus();
 }
 
 clearButton.addEventListener('click', clearEverything);

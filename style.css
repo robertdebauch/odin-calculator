@@ -56,6 +56,11 @@ header {
     align-items: center;
 }
 
+.display-focus {
+    /* border: 2px solid white; */
+      box-shadow: inset 2px 2px 3px #fff, inset -2px -2px 3px #fff;
+}
+
 /* buttons container */
 
 #panel {
@@ -121,7 +126,6 @@ header {
     justify-content: space-between;
 }
 
-/* revisit! */
 .operator,
 .number,
 #delete,
@@ -129,7 +133,6 @@ header {
     border: none;
     border-radius: 5px;
     width: 75px;
-    /* flex: 1; */
 }
 
 .operator {
@@ -174,6 +177,7 @@ header {
     display: none;
     background-color: inherit;
     font-weight: 100;
+    line-height: 0;
     font-size: inherit;
     color: rgb(161, 161, 236);
     padding-bottom: 6px;
@@ -181,7 +185,7 @@ header {
 
 .indicator-visible {
     display: inline-block !important;
-    animation: blink 1s infinite;
+    animation: blink 1s step-end infinite;
 }
 
 
