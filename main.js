@@ -60,6 +60,7 @@ const operate = (numOne, numTwo, operator) => {
     return result;
 }
 
+
 /* indicator */
 const showIndicator = () => {
     indicator.classList.add('indicator-visible');
@@ -365,3 +366,36 @@ const clearOperator = () => {
         button.classList.remove('highlight');
     });
 }
+
+
+/* keyboard */
+
+// const keys = document.querySelectorAll('.key');
+
+document.addEventListener('keydown', (e) => {
+    let key = e.key;
+
+    const keysPseudonymes = {
+        'x': '*',
+        'X': '*',
+        ',': '.',
+        '<': '.',
+        '>': '.',
+        'C': 'Escape',
+        'c': 'Escape',
+        'Backspace': 'Delete',
+        '=': 'Enter',
+    };
+
+    if (keysPseudonymes.hasOwnProperty(key)) {
+        key = keysPseudonymes[key];
+    } else {
+        key;
+    }
+
+    const button = document.querySelector(`[data-key="${key}"]`);
+    if (button) {
+        e.preventDefault();
+        button.click();
+    }
+});
