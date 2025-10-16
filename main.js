@@ -61,7 +61,6 @@ const operate = (numOne, numTwo, operator) => {
 }
 
 
-/* indicator */
 const showIndicator = () => {
     indicator.classList.add('indicator-visible');
 }
@@ -85,14 +84,14 @@ const numbersButtons = document.querySelectorAll(".number");
 
 const updateDisplay = () => {
     displayValueElement.textContent = displayValue;
-    if (displayValue.length >= (MAX_STRING_LENGTH + 12)) {
-        display.setAttribute('style', 'font-size: 1.5rem');
+    if (displayValue.length >= (MAX_STRING_LENGTH + 10)) {
+        display.setAttribute('style', 'font-size: 1.25rem');
     } else if (displayValue.length >= (MAX_STRING_LENGTH + 8)) {
-        display.setAttribute('style', 'font-size: 2rem');
+        display.setAttribute('style', 'font-size: 1.75rem');
     } else if (displayValue.length >= (MAX_STRING_LENGTH + 4)) {
-        display.setAttribute('style', 'font-size: 2.5rem');
+        display.setAttribute('style', 'font-size: 2.25rem');
     } else {
-        display.setAttribute('style', 'font-size: 3rem');
+        display.setAttribute('style', 'font-size: 2.5rem');
     }
 }
 
@@ -133,6 +132,7 @@ const appendDigit = (buttonValue, targetNumber) => {
     const currentLength = currentNumberIsDefault ? 0 : displayString.length;
 
     if (currentLength >= MAX_STRING_LENGTH) {
+        hideIndicator();
         return;
     }
 
@@ -368,10 +368,6 @@ const clearOperator = () => {
 }
 
 
-/* keyboard */
-
-// const keys = document.querySelectorAll('.key');
-
 document.addEventListener('keydown', (e) => {
     let key = e.key;
 
@@ -394,8 +390,10 @@ document.addEventListener('keydown', (e) => {
     }
 
     const button = document.querySelector(`[data-key="${key}"]`);
-    if (button) {
+    if (button && !button.disabled) {
         e.preventDefault();
+        button.classList.add('key-pressed');
+        setTimeout(() => button.classList.remove('key-pressed'), 100);
         button.click();
     }
 });

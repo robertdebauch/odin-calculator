@@ -1,81 +1,82 @@
 * {
-    background: #b6b6b6;
+    background: #121212;
     margin: 0;
     padding: 0;
-    font-family: monospace;
+    font-family: 'Google Sans Code';
 }
 
 h1 {
-    font-size: 4rem;
+    font-size: 2rem;
     text-align: center;
     margin-top: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #e8e8dd;
+    font-weight: 300;
+    border-radius: 1rem;
 }
-
-/* calculator main */
 
 #main {
     margin: 0 auto;
     margin-top: 2rem;
     width: 400px;
     height: 600px;
-    border-radius: 10px;
+    border: 2px solid gray;
+    border-radius: 1rem;
     background: #404040;
+    box-shadow: inset 2px -2px 20px #202020;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
 }
 
-/* header */
-
 header {
-    background-color: #000;
-    border-radius: 10px 10px 0 0;
+    background-color: rgb(24, 24, 24);
+    
+    border-radius: 1rem 1rem 0 0;
 }
 
 #display-frame {
     height: calc(105px - 40px);
     background-color: inherit;
-    border-radius: 10px 10px 0 0;
+    border-radius: 1rem 1rem 0 0;
     padding: 20px;
 }
 
 #display {
-    background-color: #303030;
-    border-radius: 5px;
-    padding-right: 16px;
-    font-size: 3rem;
-    line-height: 4rem;
+    background-color: #2b2b26;
+    border-radius: 0.25rem;
+    padding-left: 0.75rem;
+    font-size: 2.5rem;
     text-align: right;
-    color: white;
+    color: #e8e8dd;
     height: 100%;
     
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .display-focus {
-    /* border: 2px solid white; */
-      box-shadow: inset 2px 2px 3px #fff, inset -2px -2px 3px #fff;
+      box-shadow: inset 2px 2px 3px #e8e8dd, inset -2px -2px 3px #e8e8dd;
 }
-
-/* buttons container */
 
 #panel {
     padding: 20px;
-    border-radius: 0 0 10px 10px;
-    background: #404040;
+    border-radius: 0 0 1rem 1rem;
+    background: #202020;
     display: flex;
     flex-basis: 100%;
     flex-flow: column wrap;
     justify-content: space-between;
     align-items: stretch;
     gap: 1.25rem;
-}
 
-/* buttons style */
+    box-shadow: 4px 8px 20px rgba(24,24,24,0.15);
+}
 
 .key,
 .specialKey {
@@ -84,11 +85,9 @@ header {
     justify-content: center;
     align-items: center;
     padding: 8px;
-    font-size: 2.5rem;
+    font-size: 2rem;
     height: 75px;
 }
-
-/* white buttons */
 
 #big-buttons {
     background-color: inherit;
@@ -99,18 +98,18 @@ header {
 }
 
 .mainButton {
-    background-color: white;
-    color: #000;
+    background-color: #e8e8dd;
+    color: #181818;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.5rem;
+    box-shadow: inset 6px 6px 12px #727272, inset -6px -6px 12px #727272, 0px 1px 2px #000;
     flex: 1;
 }
 
-
 .mainButton:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-    box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
-    color: rgba(0, 0, 0, 0.5);
+    background-color: #e8e8dd;
+    box-shadow: inset -6px -6px 8px #181818, inset 6px 6px 8px #181818;
+    color: rgba(24, 24, 24, .5);
 }
 
 /* control buttons */
@@ -131,41 +130,48 @@ header {
 #delete,
 #point {
     border: none;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     width: 75px;
+    
 }
 
 .operator {
     background-color: #f54000;
-    color: white;
+    color: rgb(232, 232, 221);
+    box-shadow: inset 3px 3px 10px #350e00, inset -3px -3px 10px #350e00, 0px 1px 2px #000;
+
+    font-size: 2.5rem;
 }
 
 .operator:hover {
-    background-color: rgba(245, 64, 0, 0.5);
-    color: rgba(255, 255, 255, 0.5);
-    box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
+    background-color: rgba(245, 64, 0, 1);
+    color: rgba(232, 232, 221, 0.5);
+    box-shadow: inset -6px -6px 8px #181818, inset 6px 6px 8px #181818;
+
 }
 
 .highlight {
-    border: 2px solid rgb(255, 255, 255);
+    border: 2px solid rgb(232, 232, 221);
     background-color: #4100f5;
+    box-shadow: inset 3px 3px 10px #220180, inset -3px -3px 10px #220180, 0px 1px 2px #000;
 }
 
 .number, #point, #delete {
+    box-shadow: inset 6px 6px 20px #131313, inset -6px -6px 20px #404040, 0px 1px 2px #000;
     background-color: black;
-    color: white;
+    color: #e8e8dd;
 }
 
 .number:hover, #point:hover {
-    background-color: rgba(0, 0, 0, .5);
-    color: rgba(255, 255, 255, 0.5);
-    box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
+    background-color: rgba(24, 24, 24, 1);
+    color: rgba(232, 232, 221, 0.5);
+    box-shadow: inset -6px -6px 8px #181818, inset 6px 6px 8px #181818;
 }
 
 #delete:hover {
     background-color: #690500;
-    color: rgba(255, 255, 255, 0.5);
-    box-shadow: inset -2px -2px 4px #000, inset 2px 2px 4px #000;
+    color: rgba(232, 232, 221, 0.5);
+    box-shadow: inset -6px -6px 8px #181818, inset 6px 6px 8px #181818;
 }
 
 #display-value {
@@ -180,7 +186,6 @@ header {
     line-height: 0;
     font-size: inherit;
     color: rgb(161, 161, 236);
-    padding-bottom: 6px;
 }
 
 .indicator-visible {
@@ -203,3 +208,7 @@ header {
     }
 }
 
+.key-pressed {
+    background: rgb(232, 232, 221);
+    color: #181818;
+}
