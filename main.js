@@ -1,6 +1,6 @@
 const DEFAULT_NUMBER = null;
 const DEFAULT_OPERATOR = "";
-const MAX_STRING_LENGTH = 9;
+const MAX_STRING_LENGTH = 16;
 
 let numberOne = DEFAULT_NUMBER;
 let numberTwo = DEFAULT_NUMBER;
@@ -84,11 +84,11 @@ const numbersButtons = document.querySelectorAll(".number");
 
 const updateDisplay = () => {
     displayValueElement.textContent = displayValue;
-    if (displayValue.length >= (MAX_STRING_LENGTH + 10)) {
-        display.setAttribute('style', 'font-size: 1.25rem');
-    } else if (displayValue.length >= (MAX_STRING_LENGTH + 8)) {
+    if (displayValue.length >= 20) {
+        display.setAttribute('style', 'font-size: 1.5rem');
+    } else if (displayValue.length >= 16) {
         display.setAttribute('style', 'font-size: 1.75rem');
-    } else if (displayValue.length >= (MAX_STRING_LENGTH + 4)) {
+    } else if (displayValue.length >= 14) {
         display.setAttribute('style', 'font-size: 2.25rem');
     } else {
         display.setAttribute('style', 'font-size: 2.5rem');
@@ -302,6 +302,10 @@ deleteButton.addEventListener('click', () => {
     }
 
     updateDisplay();
+
+    if (displayValue.length < MAX_STRING_LENGTH && displayValue !== defaultDisplayValue) {
+        showIndicator();
+    }
 });
 
 
